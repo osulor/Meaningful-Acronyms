@@ -54,4 +54,20 @@
 
         />
 
+    <TextView
+        android:id="@+id/info_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textAlignment="center"
+        android:textStyle="italic|bold"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        android:text="Sorry, no relevant meaning was found in our database for this word. \n Please enter a new word."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
