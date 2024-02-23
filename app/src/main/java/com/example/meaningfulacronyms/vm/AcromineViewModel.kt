@@ -4,20 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.meaningfulacronyms.model.AcromineResponse
+import com.example.meaningfulacronyms.model.Acromine
 import com.example.meaningfulacronyms.network.AcromineRepository
 import com.example.meaningfulacronyms.util.ApiCallState
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 
-class AcromineViewModel(val acromineRepository: AcromineRepository): ViewModel() {
+class AcromineViewModel(private val acromineRepository: AcromineRepository): ViewModel() {
 
-    private val _wordMeanings = MutableLiveData<ApiCallState<AcromineResponse>>()
-    val wordMeanings: LiveData<ApiCallState<AcromineResponse>>
+    private val _wordMeanings = MutableLiveData<ApiCallState<List<Acromine>>>()
+    val wordMeanings: LiveData<ApiCallState<List<Acromine>>>
         get() = _wordMeanings
 
-    private suspend fun getMeanings(wordAbbreviation: String){
+     suspend fun getMeanings(wordAbbreviation: String){
         viewModelScope.launch {
             _wordMeanings.value = ApiCallState.Loading()
             val response = acromineRepository.getMeanings(wordAbbreviation)
@@ -25,7 +25,7 @@ class AcromineViewModel(val acromineRepository: AcromineRepository): ViewModel()
         }
     }
 
-    private fun handleApiResponse(response: Response<AcromineResponse>) : ApiCallState<AcromineResponse> {
+    private fun handleApiResponse(response: Response<List<Acromine>>) : ApiCallState<List<Acromine>> {
         if(response.isSuccessful){
             response.body()?.let {resultResponse ->
                 _wordMeanings.value = ApiCallState.Success(resultResponse)
