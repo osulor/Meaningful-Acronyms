@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Meaningful Acronyms</string>
+    <string name="no_internet_please_check_connectivity">NO INTERNET, PLEASE CHECK CONNECTIVITY</string>
+    <string name="the_data_is_being_retrieved">The data is being retrieved</string>
+    <string name="please_enter_your_word">Please enter your word</string>
+    <string name="sorry_no_relevant_meaning_was_found_in_our_database_for_this_word_n_please_enter_a_new_word">Sorry, no relevant meaning was found in our database for this word. \n Please enter a new word.</string>
 </resources>

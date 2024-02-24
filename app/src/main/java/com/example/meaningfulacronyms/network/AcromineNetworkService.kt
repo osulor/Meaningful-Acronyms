@@ -6,7 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface AcromineNetworkService {
-
     @GET("dictionary.py")
     suspend fun getMeanings( @Query("sf")
                     wordAbbreviation: String ) : Response<List<Acromine>>

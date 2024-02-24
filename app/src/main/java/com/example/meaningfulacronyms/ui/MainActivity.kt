@@ -45,11 +45,12 @@ class MainActivity : AppCompatActivity() {
         acromineViewModel = ViewModelProvider(this, viewModelFactory)[AcromineViewModel::class.java]
 
         binding.searchButton.setOnClickListener {
-            val isNetworkAvailable =isNetworkAvailable(this@MainActivity)
+            val isNetworkAvailable = isNetworkAvailable(this@MainActivity)
             if (isNetworkAvailable){
                 lifecycleScope.launch { retrieveData(binding.wordEntry.text.toString()) }
              } else {
-                Toast.makeText(this, "NO INTERNET, CHECK CONNECTIVITY", Toast.LENGTH_LONG).show()
+                 binding.infoTextView.text = getString(R.string.no_internet_please_check_connectivity)
+                 hideRecyclerViewData()
             }
         }
     }
@@ -65,22 +66,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun retrieveData(word: String) {
-        acromineViewModel.getMeanings(word)
-        setUpRecyclerView()
-        acromineViewModel.wordMeanings.observe(this, Observer { response ->
 
+        acromineViewModel.getMeanings(word)
+
+        setUpRecyclerView()
+
+        acromineViewModel.wordMeanings.observe(this, Observer { response ->
             when (response) {
                 is ApiCallState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
-                    Toast.makeText(this, "The data is being retrieved", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.the_data_is_being_retrieved), Toast.LENGTH_LONG).show()
                 }
-
                 is ApiCallState.Success -> {
                     response.data?.let { acromineResponse ->
                         displayData(acromineResponse)
                     }
                 }
-
                 is ApiCallState.Error -> {
                     response.message?.let { errorMessage ->
                         binding.progressBar.visibility = View.GONE
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             showRecyclerViewData()
         } else {
             hideRecyclerViewData()
+            binding.infoTextView.text = getString(R.string.sorry_no_relevant_meaning_was_found_in_our_database_for_this_word_n_please_enter_a_new_word)
         }
     }
 
